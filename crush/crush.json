@@ -1,0 +1,39 @@
+{
+  "$schema": "https://charm.land/crush.json",
+  "providers": {
+    "openrouter": {
+      "type": "openai-compat",
+      "base_url": "https://openrouter.ai/api/v1",
+      "api_key": "${OPENROUTER_API_KEY:?set OPENROUTER_API_KEY}",
+      "models": [
+        {
+          "id": "openrouter/auto",
+          "name": "OpenRouter Auto",
+          "context_window": 200000
+        }
+      ]
+    }
+  },
+  "models": {
+    "small": {
+      "model": "openrouter/auto",
+      "provider": "openrouter"
+    }
+  },
+  "options": {
+    "global_context_paths": [
+      "__HOME__/.agents/AGENTS.md",
+      "__HOME__/.agents/caveman.md"
+    ],
+    "skills_paths": [
+      "__HOME__/.agents/skills",
+      "__HOME__/.claude/skills"
+    ],
+    "initialize_as": "AGENTS.md"
+  },
+  "lsp": {
+    "clangd": {
+      "command": "clangd"
+    }
+  }
+}
