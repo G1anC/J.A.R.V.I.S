@@ -28,18 +28,39 @@ log "claude:  $CLAUDE_DIR"
 log "crush:   $CRUSH_DIR"
 printf '\n'
 
-if [[ "$SRC" != "$AGENTS_DIR" ]]; then
-    back_up "$AGENTS_DIR" ".agents"
-    mkdir -p "$AGENTS_DIR"
-    for item in AGENTS.md caveman.md skills wiki; do
-        [[ -e "$SRC/$item" ]] && cp -R "$SRC/$item" "$AGENTS_DIR/"
-    done
-    log "installed  ~/.agents"
+MYCELIUM_DIR="$HOME/.mycelium"
+
+# AGENTS.md and skills/ are built from mycelium/, never edited directly.
+back_up "$MYCELIUM_DIR/rules" "mycelium/rules"
+mkdir -p "$MYCELIUM_DIR/rules" "$MYCELIUM_DIR/skills"
+cp "$SRC"/mycelium/rules/*.md "$MYCELIUM_DIR/rules/"
+cp "$SRC"/mycelium/skills/*.md "$MYCELIUM_DIR/skills/"
+for extra in references scripts; do
+    if [[ -d "$SRC/mycelium/skills/$extra" ]]; then
+        cp -R "$SRC/mycelium/skills/$extra" "$MYCELIUM_DIR/skills/"
+    fi
+done
+log "installed  ~/.mycelium/rules and ~/.mycelium/skills"
+
+mkdir -p "$AGENTS_DIR"
+if [[ -e "$SRC/caveman.md" && "$SRC" != "$AGENTS_DIR" ]]; then
+    cp "$SRC/caveman.md" "$AGENTS_DIR/"
 fi
 
-for d in bugs tools projects conventions syntheses; do
-    mkdir -p "$AGENTS_DIR/wiki/$d"
-done
+if command -v mycelium >/dev/null 2>&1; then
+    mycelium install agents >/dev/null
+    log "generated  ~/.agents/AGENTS.md and ~/.agents/skills (mycelium)"
+else
+    # Same concatenation mycelium does, so the config works without it.
+    cat "$SRC"/mycelium/rules/*.md > "$AGENTS_DIR/AGENTS.md"
+    for f in "$SRC"/mycelium/skills/*.md; do
+        name="$(basename "$f" .md)"
+        mkdir -p "$AGENTS_DIR/skills/$name"
+        cp "$f" "$AGENTS_DIR/skills/$name/SKILL.md"
+    done
+    log "generated  ~/.agents/AGENTS.md and ~/.agents/skills (no mycelium, plain concat)"
+    warn "mycelium is not installed, so nothing will regenerate these on change."
+fi
 
 # Claude Code reads CLAUDE.md; point it at the one policy file instead of copying it.
 mkdir -p "$CLAUDE_DIR/scripts"

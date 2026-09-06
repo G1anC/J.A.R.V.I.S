@@ -23,7 +23,6 @@
   "options": {
     "global_context_paths": [
       "__HOME__/.agents/AGENTS.md",
-      "__HOME__/.agents/AGENTS.local.md",
       "__HOME__/.agents/caveman.md"
     ],
     "skills_paths": [

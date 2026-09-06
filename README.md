@@ -20,14 +20,13 @@ than deleted.
 
 | Path | Role |
 |---|---|
-| `AGENTS.md` | Base policy: persona, core rules, git and code style, wiki protocol |
+| `mycelium/rules/` | The base policy, in six ordered pieces. Source of `AGENTS.md` |
+| `mycelium/skills/` | Agent Skills, one flat `.md` each. Source of `skills/` |
 | `caveman.md` | Full caveman ruleset, level `full`, for harnesses with no caveman plugin |
-| `skills/` | Agent Skills, one `SKILL.md` folder each |
-| `wiki/` | Durable knowledge the agent maintains itself, gitignored |
-| `AGENTS.local.md` | Machine-local profile and infrastructure, gitignored |
+| `install.sh` | Installs the sources, then builds the generated files |
+| `update-from-machine.sh` | The reverse: pulls this machine's live sources back into the repo |
 | `claude/` | Claude Code settings and hook scripts |
 | `crush/` | Crush config, with `__HOME__` as the path placeholder |
-| `install.sh` | Wires all of the above into a machine |
 
 ## Install
 
@@ -42,6 +41,20 @@ Requires `jq`. The statusline and the startup hook both parse JSON with it.
 The installer backs up anything it replaces to `~/.jarvis-backups/<timestamp>/`. It
 **replaces `settings.json` and `crush.json` wholesale rather than merging them**, so
 merge your own hooks, permissions, MCP servers or providers back from that backup.
+
+## Generated files are not tracked
+
+`AGENTS.md` and `skills/` are build output. `mycelium install agents` concatenates
+`~/.mycelium/rules/*.md` into the first and expands `~/.mycelium/skills/*.md` into the
+second, and the sync daemon redoes it on its own schedule. Editing either one directly does
+not survive. Change `mycelium/rules/` or `mycelium/skills/` instead.
+
+Both are gitignored, so a clone starts with sources only and `install.sh` builds the rest. If
+`mycelium` is absent the installer does the same concatenation itself, so the config works
+without it, it just never regenerates.
+
+Run `./update-from-machine.sh` to pull your machine's live sources back into the repo before
+committing. It filters `settings.json` and rewrites `$HOME` to `__HOME__` on the way in.
 
 ## What is not in this repo
 
