@@ -96,7 +96,11 @@ For a deliberate pass over an existing document, run `/unslop`.
 
 ### Code Style
 
-- NEVER add inline comments in code
+- Comments are capped at 2 lines. A comment that needs a third is a sign the code needs a
+  better name or a smaller function, so fix that instead of writing the paragraph
+- Comment why, never what. The code already says what it does
+- The cap covers comments in code. Doc blocks in the language's native format above a public
+  function (JSDoc, rustdoc, docstring, godoc) are documentation and run as long as they need
 - When developing Rust, remove dead code
 
 ### Engineering Ladder
