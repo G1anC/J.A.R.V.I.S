@@ -25,7 +25,8 @@ than deleted.
 | `caveman.md` | Full caveman ruleset, level `full`, for harnesses with no caveman plugin |
 | `install.sh` | Installs the sources, then builds the generated files |
 | `update-from-machine.sh` | The reverse: pulls this machine's live sources back into the repo |
-| `claude/` | Claude Code settings and hook scripts |
+| `scripts/` | The startup banner, shared by both harnesses |
+| `claude/` | Claude Code settings and its statusline script |
 | `crush/` | Crush config, with `__HOME__` as the path placeholder |
 
 ## Install
@@ -83,6 +84,13 @@ absent the config still works, the agent just has no infrastructure context. Sta
 `~/.claude/skills`. Crush resolves neither `~` nor `$HOME` in that file, so the installer
 substitutes the real path on the way in. The config names a provider but holds no key: it
 reads `OPENROUTER_API_KEY` from the environment.
+
+The startup banner is dual-mode. `jarvis-startup.sh --json` emits the `systemMessage` payload
+Claude Code's `SessionStart` hook expects; with no flag it prints the banner as plain text.
+Crush has no session-start event (v0.82.0 fires only `PreToolUse`, `Stop` and `Notification`),
+so `crush/jarvis-crush.zsh` wraps the binary in a shell function that prints the banner and
+then execs the real `crush`. Source it from your shell rc. Set `CRUSH_NO_BANNER=1` to mute it,
+and it stays quiet when stdout is not a terminal.
 
 **opencode** reads `~/.config/opencode/opencode.jsonc`, pointing `instructions` at the
 same two files. Not wired by the installer.

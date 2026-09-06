@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$HOME/.claude/scripts/jarvis-startup.sh\""
+            "command": "bash \"$HOME/.agents/scripts/jarvis-startup.sh\" --json"
           }
         ]
       },

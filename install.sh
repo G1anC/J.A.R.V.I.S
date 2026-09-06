@@ -72,6 +72,13 @@ back_up "$CLAUDE_DIR/settings.json" "claude/settings.json"
 cp "$SRC/claude/settings.json" "$CLAUDE_DIR/settings.json"
 log "installed  ~/.claude/settings.json"
 
+mkdir -p "$AGENTS_DIR/scripts"
+if [[ "$SRC" != "$AGENTS_DIR" ]]; then
+    cp "$SRC/scripts/jarvis-startup.sh" "$AGENTS_DIR/scripts/jarvis-startup.sh"
+fi
+chmod +x "$AGENTS_DIR/scripts/jarvis-startup.sh"
+log "installed  ~/.agents/scripts/jarvis-startup.sh (shared by both harnesses)"
+
 for f in "$SRC"/claude/scripts/*.sh; do
     name="$(basename "$f")"
     back_up "$CLAUDE_DIR/scripts/$name" "claude/scripts/$name"
@@ -79,6 +86,13 @@ for f in "$SRC"/claude/scripts/*.sh; do
     chmod +x "$CLAUDE_DIR/scripts/$name"
     log "installed  ~/.claude/scripts/$name"
 done
+
+back_up "$AGENTS_DIR/crush/jarvis-crush.zsh" "crush/jarvis-crush.zsh"
+mkdir -p "$AGENTS_DIR/crush"
+if [[ "$SRC" != "$AGENTS_DIR" ]]; then
+    cp "$SRC/crush/jarvis-crush.zsh" "$AGENTS_DIR/crush/jarvis-crush.zsh"
+fi
+log "installed  ~/.agents/crush/jarvis-crush.zsh"
 
 # Crush takes absolute paths only, so bake $HOME in rather than shipping a literal.
 mkdir -p "$CRUSH_DIR"
@@ -92,6 +106,8 @@ warn "settings.json and crush.json are replaced wholesale, not merged."
 warn "Had your own hooks, permissions, MCP servers or providers? Merge them back from the backup."
 printf '\n'
 log "crush.json expects OPENROUTER_API_KEY in the environment. It stores no key itself."
+log "Crush has no session-start hook. For the banner, add to your shell rc:"
+log "    source ~/.agents/crush/jarvis-crush.zsh"
 log "Claude Code: run /plugin once so the caveman marketplace syncs."
 log "Then edit the User Profile and Infrastructure blocks in AGENTS.md so they are yours."
 printf '\n'
