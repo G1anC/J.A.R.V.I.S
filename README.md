@@ -32,8 +32,8 @@ than deleted.
 ## Install
 
 ```bash
-git clone https://github.com/G1anC/j.a.r.v.i.s
-cd j.a.r.v.i.s
+git clone https://github.com/G1anC/J.A.R.V.I.S
+cd J.A.R.V.I.S
 ./install.sh
 ```
 
