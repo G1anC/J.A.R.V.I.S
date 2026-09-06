@@ -1,7 +1,4 @@
 {
-  "permissions": {
-    "blockReadsOutsideWorkingDirectories": false
-  },
   "model": "opus",
   "hooks": {
     "SessionStart": [
@@ -47,38 +44,5 @@
   },
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "agentPushNotifEnabled": true,
-  "autoMode": {
-    "soft_deny": [
-      "$defaults",
-      "Bash(nuage rm:*) — destructive cloud-storage delete used without -f is promplocated; add care for -f variant given nuage usage patterns",
-      "Bash(casier secrets delete:*) — deletes secrets from the Casier secrets manager"
-    ],
-    "environment": [
-      "### Org-wide",
-      "**Organization**: None configured",
-      "**Cloud provider(s)**: None configured",
-      "**Repository visibility**: assume private unless the remote host and repo name indicate otherwise, or a visibility check in the transcript shows public — no git repo/remote detected in the working directory (~/home/gian is not a repo)",
-      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
-      "**Secrets management**: Casier (Facile secrets manager CLI) — project defaults in casier.yml, token in OS keychain or CASIER_TOKEN in CI",
-      "**Default / protected branches**: not queryable — no git repo/remote in working directory",
-      "**CI/CD deploy targets**: None configured",
-      "**Network posture**: None configured",
-      "**Source control**: no trusted repo detected in the working directory — working directory has no git remotes",
-      "**Trusted internal domains**: None configured",
-      "**Trusted cloud buckets**: None configured",
-      "**Key internal services**: Casier secrets server (URL in casier config.toml); Nuage cloud storage (~/.nuage.yml, NUAGE_SERVER_URL); Sablier time tracking (~/.sablier.yml); Opus project management (~/.opus.yml); Dokploy deploy target (DOKPLOY_URL, DOKPLOY_API_KEY)",
-      "**Internal package registry**: None configured",
-      "**Sensitive data locations & audiences**: .env and credential-bearing files under this home directory (e.g. TEK/HandVision/AI/.env, TEK/HandVision/AI/.env.docker, TEK/HandVision/BackEnd/.env.development, TEK/HandVision/BackEnd/.env.production, _WORK/facile/Hottake/.env, .claude/.credentials.json, Desktop/yeah/prod.keys, Downloads/Prodkeys-22.0.0/prod.keys) — share only with audiences cleared at the [named+specifics] bar",
-      "**Data retention / declassification**: None configured",
-      "**Sensitive remote targets**: any namespace, host, or container whose name carries prod or production as a whole word or name segment (e.g. TEK/HandVision/BackEnd/.env.production, Desktop/yeah/prod.keys, Downloads/Prodkeys-22.0.0/prod.keys)",
-      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
-      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment",
-      "### User-specific",
-      "**Primary use of Claude Code**: software development, plus system/desktop administration on this Arch Linux + Hyprland workstation (hyprctl, pacman, yay, flatpak, systemctl, journalctl, pactl usage observed)",
-      "**Trusted repo**: none — the working directory (~/) is not itself a git repository and has no configured remotes; the ~/.claude and skills configs reference sibling checkouts (e.g. ~/TEK/HandVision, ~/.config, ~/_PAPERASSE/typst-templates) but those are separate repos not vetted as this project's trusted repo",
-      "**Org-specific CLIs**: casier (Facile secrets manager), nuage (Facile cloud storage/sync), opus (Facile project management), sablier (Facile time tracking) — all Facile Studio internal tools per ~/.claude/skills/",
-      "**routine under gian/ prefix**: author name `gian` per ~/.claude/CLAUDE.md; no repo-scoped prefix applies since no trusted repo was found"
-    ]
-  }
+  "agentPushNotifEnabled": true
 }

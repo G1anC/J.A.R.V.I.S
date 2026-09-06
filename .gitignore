@@ -5,3 +5,12 @@
 *.credentials.json
 history.jsonl
 skills/*/lib
+
+# Machine-local and personal: never published
+AGENTS.local.md
+claude/settings.local.json
+wiki/
+
+# Facile-internal skills
+skills/facile-plan/
+skills/facile-review/

@@ -23,7 +23,8 @@ than deleted.
 | `AGENTS.md` | Base policy: persona, core rules, git and code style, wiki protocol |
 | `caveman.md` | Full caveman ruleset, level `full`, for harnesses with no caveman plugin |
 | `skills/` | Agent Skills, one `SKILL.md` folder each |
-| `wiki/` | Durable knowledge the agent maintains itself |
+| `wiki/` | Durable knowledge the agent maintains itself, gitignored |
+| `AGENTS.local.md` | Machine-local profile and infrastructure, gitignored |
 | `claude/` | Claude Code settings and hook scripts |
 | `crush/` | Crush config, with `__HOME__` as the path placeholder |
 | `install.sh` | Wires all of the above into a machine |
@@ -41,6 +42,22 @@ Requires `jq`. The statusline and the startup hook both parse JSON with it.
 The installer backs up anything it replaces to `~/.jarvis-backups/<timestamp>/`. It
 **replaces `settings.json` and `crush.json` wholesale rather than merging them**, so
 merge your own hooks, permissions, MCP servers or providers back from that backup.
+
+## What is not in this repo
+
+Four things stay local, because they are personal rather than configuration:
+
+| Path | Why |
+|---|---|
+| `AGENTS.local.md` | Author handle, machine names, SSH aliases, infrastructure endpoints, second-brain paths |
+| `claude/settings.local.json` | The `autoMode` security profile, which names internal services and sensitive file paths |
+| `wiki/` | The agent's own knowledge, including client and business notes |
+| `skills/facile-*` | Skills for Facile Studio internal workflows |
+
+`AGENTS.md` carries a pointer to `AGENTS.local.md` rather than the content itself. Claude Code
+resolves it as an `@` import; Crush loads it through `global_context_paths`. If the file is
+absent the config still works, the agent just has no infrastructure context. Start from
+`AGENTS.local.example.md`.
 
 ## How each harness is wired
 
